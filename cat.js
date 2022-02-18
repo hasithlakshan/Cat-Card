@@ -1,11 +1,11 @@
-let { writeFile } = require('fs');
-let { join } = require('path');
-let blend = require('@mapbox/blend');
-let argv = require('minimist')(process.argv.slice(2));
+const { writeFile } = require('fs');
+const { join } = require('path');
+const blend = require('@mapbox/blend');
+const argv = require('minimist')(process.argv.slice(2));
 
 const { getCat } = require('./services/CatService');
 
-let { greeting = 'Hello', who = 'You', width = 400, height = 500, color = 'Pink', size = 100 } = argv;
+const { greeting = 'Hello', who = 'You', width = 400, height = 500, color = 'Pink', size = 100 } = argv;
 
 /**
  * This funtion will fetch two images that need to bind together
@@ -14,20 +14,11 @@ let { greeting = 'Hello', who = 'You', width = 400, height = 500, color = 'Pink'
 const fetchImages = async () => {
   try {
     const firstResponse = await getCat(
-      'https://cataas.com/cat/says/' +
-        greeting +
-        '?width=' +
-        width +
-        '&height=' +
-        height +
-        '&color' +
-        color +
-        '&s=' +
-        size
+      `https://cataas.com/cat/says/${greeting}?width=${width}&height=${height}&color${color}&s=${size}`
     );
     console.log('Received response with status:' + firstResponse.status);
     const secondResponse = await getCat(
-      'https://cataas.com/cat/says/' + who + '?width=' + width + '&height=' + height + '&color' + color + '&s=' + size
+      `https://cataas.com/cat/says/${who}?width=${width}&height=${height}&color${color}&s=${size}`
     );
     console.log('Received response with status:' + secondResponse.status);
     return mergeImages(firstResponse.data, secondResponse.data);
